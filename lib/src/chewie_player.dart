@@ -22,11 +22,14 @@ class Chewie extends StatefulWidget {
   Chewie({
     Key key,
     this.controller,
+    this.title = '',
   })  : assert(controller != null, 'You must provide a chewie controller'),
         super(key: key);
 
   /// The [ChewieController]
   final ChewieController controller;
+  //标题
+  final String title;
 
   @override
   ChewieState createState() {
@@ -71,7 +74,7 @@ class ChewieState extends State<Chewie> {
   Widget build(BuildContext context) {
     return _ChewieControllerProvider(
       controller: widget.controller,
-      child: PlayerWithControls(),
+      child: PlayerWithControls(title: widget.title,),
     );
   }
 
@@ -109,7 +112,7 @@ class ChewieState extends State<Chewie> {
   ) {
     var controllerProvider = _ChewieControllerProvider(
       controller: widget.controller,
-      child: PlayerWithControls(),
+      child: PlayerWithControls(title: widget.title,),
     );
 
     if (widget.controller.routePageBuilder == null) {
