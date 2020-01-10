@@ -99,7 +99,7 @@ class _MaterialControlsState extends State<MaterialControls> {
                 if (chewieController.isFullScreen) {
                   _onExpandCollapse();
                 } else {
-                  Navigator.pop(context);
+                  Navigator.of(context, rootNavigator: true).pop();
                 }
               },
               color: lightColor,
