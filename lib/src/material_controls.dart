@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:chewie/src/chewie_player.dart';
 import 'package:chewie/src/chewie_progress_colors.dart';
@@ -60,6 +61,8 @@ class _MaterialControlsState extends State<MaterialControls> {
         _cancelAndRestartTimer();
       },
       child: GestureDetector(
+        onDoubleTap: () => _playPause(),
+        onVerticalDragUpdate: (details) => _changeVolume(details),
         onTap: () => _cancelAndRestartTimer(),
         child: AbsorbPointer(
           absorbing: _hideStuff,
@@ -82,6 +85,14 @@ class _MaterialControlsState extends State<MaterialControls> {
         ),
       ),
     );
+  }
+
+  void _changeVolume(DragUpdateDetails details) {
+    if (!chewieController.isFullScreen) return;
+    _latestVolume = _latestVolume ?? 0;
+    _latestVolume = _latestVolume - details.delta.dy*10;
+    _latestVolume =  _latestVolume.clamp(0.0, 100.0) as double;
+    controller.setVolume(_latestVolume);
   }
 
   AnimatedOpacity _buildHeader(BuildContext context, String title) {
@@ -213,12 +224,6 @@ class _MaterialControlsState extends State<MaterialControls> {
               });
             } else
               _cancelAndRestartTimer();
-          } else {
-            _playPause();
-
-            setState(() {
-              _hideStuff = true;
-            });
           }
         },
         child: Container(
@@ -231,17 +236,12 @@ class _MaterialControlsState extends State<MaterialControls> {
                       : 0.0,
               duration: Duration(milliseconds: 300),
               child: GestureDetector(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.black54,
-                    borderRadius: BorderRadius.circular(48.0),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.all(12.0),
-                    child:
-                        Icon(Icons.play_arrow, size: 32.0, color: lightColor),
-                  ),
-                ),
+                onTap: () {
+                  _playPause();
+                  setState(() {
+                    _hideStuff = true;
+                  });
+                },
               ),
             ),
           ),

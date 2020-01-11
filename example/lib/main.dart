@@ -30,10 +30,10 @@ class _ChewieDemoState extends State<ChewieDemo> {
   void initState() {
     super.initState();
     _videoPlayerController2 = VideoPlayerController.network(
-        'https://www.sample-videos.com/video123/mp4/480/asdasdas.mp4');
+        'http://vfx.mtime.cn/Video/2019/02/04/mp4/190204084208765161.mp4');
     _chewieController = ChewieController(
       videoPlayerController: _videoPlayerController2,
-      aspectRatio: 3 / 2,
+      aspectRatio: 16 / 9,
       autoPlay: true,
       looping: true,
     );
